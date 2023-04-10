@@ -3,6 +3,10 @@
 #include <stdio.h>
 #include <windows.h>
 int isgamerunning = 1;
+
+int state = 0;
+int screen = 1;
+
 int print_title()
 {
 	system("cls");
@@ -55,13 +59,45 @@ void makestage(int x, int y)
 	}
 	printf("\n타이틀 화면으로 돌아갈까요?(Y/N)\n");
 }
+int screenchange(int sc)
+{
+	char c;
+	if (sc == 2)
+	{
+		i_screen();
+		sc = 0;
+	}
+	else if (sc == 3)
+	{
+		r_screen();
+	}
+	else if (sc == 4)
+	{
+		makestage(30, 10);
+	}
+	else if (sc == 1)
+	{
+		print_title();
+	}
+	c = 0;
+	c = _getch();
+	if (c == 'y')
+	{
+		state = 0;
+		screen = 1;
+	}
+	else if (c == '4' || c == 27) return 1;
+
+	return 0;
+}
+
 int main()
 {
-	int state = 0;
-	int screen = 1;
+	int a = 0;
 	while (isgamerunning)
 	{
 		char c = 0;
+
 		switch (state)
 		{
 		case 0:
@@ -91,54 +127,18 @@ int main()
 				isgamerunning = 0;
 			break;
 		case 1:
-			if (screen == 4)
-			{
-				makestage(30, 10);
-				screen = 0;
-			}
-			c = 0;
-			c = _getch();
-			if (c == 'y')
-			{
-				state = 0;
-				screen = 1;
-			}
-			else if (c == '4' || c == 27) return 0;
+			a = screenchange(screen);
 			break;
-
 		case 2:
-			if (screen == 2)
-			{
-				i_screen();
-				screen = 0;
-			}
-			c = 0;
-			c = _getch();
-			if (c == 'y')
-			{
-				state = 0;
-				screen = 1;
-			}
-			else if (c == '4' || c == 27) return 0;
+			a = screenchange(screen);
 			break;
 		case 3:
-			if (screen == 3)
-			{
-				r_screen();
-				screen = 0;
-			}
-			c = 0;
-			c = _getch();
-			if (c == 'y')
-			{
-				state = 0;
-				screen = 1;
-			}
-			else if (c == '4' || c == 27) return 0;
+			a = screenchange(screen);
 			break;
 		default:
 			break;
 		}
+		if (a == 1) return 0;
 	}
 	return 0;
 }
