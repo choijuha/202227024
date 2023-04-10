@@ -2,7 +2,7 @@
 #include <iostream>
 #include <stdio.h>
 #include <windows.h>
-
+int isgamerunning = 1;
 int print_title()
 {
 	system("cls");
@@ -58,7 +58,6 @@ void makestage(int x, int y)
 int main()
 {
 	int state = 0;
-	int isgamerunning = 1;
 	int screen = 1;
 	while (isgamerunning)
 	{
@@ -104,6 +103,7 @@ int main()
 				state = 0;
 				screen = 1;
 			}
+			else if (c == '4' || c == 27) return 0;
 			break;
 
 		case 2:
@@ -119,6 +119,7 @@ int main()
 				state = 0;
 				screen = 1;
 			}
+			else if (c == '4' || c == 27) return 0;
 			break;
 		case 3:
 			if (screen == 3)
@@ -133,6 +134,7 @@ int main()
 				state = 0;
 				screen = 1;
 			}
+			else if (c == '4' || c == 27) return 0;
 			break;
 		default:
 			break;
