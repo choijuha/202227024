@@ -44,9 +44,12 @@ void makestage(int x, int y)
 		{
 			COORD pos = { i,j };
 			SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), pos);
-			if ((j == 1 && i > 0 && i < x + 1) || (j == y && i > 0 && i < x + 1) || (j > 1 && j < y && i == 1) || (j > 1 && j < y && i == x))
+			if (j > 0 && j < y + 1 && i > 0 && i < x + 1)
 			{
-				printf("*");
+				if (j == 1 || j == y ||  i == 1 ||  i == x)
+				{
+					printf("*");
+				}
 			}
 		}
 	}
@@ -91,7 +94,7 @@ int main()
 		case 1:
 			if (screen == 4)
 			{
-				makestage(20, 10);
+				makestage(30, 10);
 				screen = 0;
 			}
 			c = 0;
