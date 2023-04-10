@@ -2,7 +2,6 @@
 #include <iostream>
 #include <stdio.h>
 #include <windows.h>
-int isgamerunning = 1;
 
 int state = 0;
 int screen = 1;
@@ -48,52 +47,45 @@ void makestage(int x, int y)
 		{
 			COORD pos = { i,j };
 			SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), pos);
-			if (j > 0 && j < y + 1 && i > 0 && i < x + 1)
-			{
-				if (j == 1 || j == y ||  i == 1 ||  i == x)
-				{
-					printf("*");
-				}
-			}
+			if (j > 0 && j < y + 1 && i > 0 && i < x + 1) if (j == 1 || j == y ||  i == 1 ||  i == x) printf("*");
 		}
 	}
 	printf("\n타이틀 화면으로 돌아갈까요?(Y/N)\n");
 }
 int screenchange(int sc)
 {
-	char c;
+	char c = 0;
 	if (sc == 2)
 	{
 		i_screen();
-		sc = 0;
+		screen = 0;
 	}
 	else if (sc == 3)
 	{
 		r_screen();
+		screen = 0;
 	}
 	else if (sc == 4)
 	{
 		makestage(30, 10);
+		screen = 0;
 	}
-	else if (sc == 1)
-	{
-		print_title();
-	}
-	c = 0;
+	else if (sc == 1) print_title();
 	c = _getch();
 	if (c == 'y')
 	{
 		state = 0;
 		screen = 1;
 	}
-	else if (c == '4' || c == 27) return 1;
+	else if (c == '4' || c == 27) return 0;
 
-	return 0;
+	return 1;
 }
 
 int main()
 {
 	int a = 0;
+	int isgamerunning = 1;
 	while (isgamerunning)
 	{
 		char c = 0;
@@ -106,7 +98,6 @@ int main()
 				print_title();
 				screen = 0;
 			}
-			c = 0;
 			c = _getch();
 			if (c == '2')
 			{
@@ -127,18 +118,17 @@ int main()
 				isgamerunning = 0;
 			break;
 		case 1:
-			a = screenchange(screen);
+			isgamerunning = screenchange(screen);
 			break;
 		case 2:
-			a = screenchange(screen);
+			isgamerunning = screenchange(screen);
 			break;
 		case 3:
-			a = screenchange(screen);
+			isgamerunning = screenchange(screen);
 			break;
 		default:
 			break;
 		}
-		if (a == 1) return 0;
 	}
 	return 0;
 }
