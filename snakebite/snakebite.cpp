@@ -72,7 +72,7 @@ void makestage(int width, int height)
 		grid[i][width] = '\0';
 	}
 
-	int head_x = width / 2, head_y = height /2;
+	int head_x = width / 2, head_y = height /2;//처음 시작 위치를 중앙으로 설정
 	int tail_x[100], tail_y[100], tail_length =3;
 	for (int i = 0; i < tail_length; i++) {
 		tail_x[i] = head_x - i - 1;
@@ -100,13 +100,14 @@ void makestage(int width, int height)
 			else if (c == 's' || c == 'S') { dx = 0; dy = 1; }
 			else if (c == 27) break;
 		}
-		if (head_x < 0 || head_x >= width || head_y < 0 || head_y >= height )
+		if (head_x < 0 || head_x >= width || head_y < 0 || head_y >= height )//벽과 충돌하면  gameover 출력 후 종료
 		{
 			printf("game over");
 			break;
 		}
 		
 		if (gameover) break;
+		//apple을 먹었는지, 먹었으면 apple의 좌표 변경, 꼬리 길이 늘리기
 		if (head_x == apple_x && head_y == apple_y)
 		{
 			grid[apple_y][apple_x] = ' ';
@@ -119,7 +120,7 @@ void makestage(int width, int height)
 		system("cls");
 		for (int y = 0; y < height; y++) {
 			for (int x = 0; x < width; x++) {
-				if (appleeat == false)
+				if (appleeat == false)//apple 출력
 				{
 					if (y == apple_y && x == apple_x)
 					{
@@ -127,11 +128,11 @@ void makestage(int width, int height)
 					}
 				}
 				if (y == 0 || y == height - 1 || x == 0 || x == width - 1) {
-					printf("%c", grid[y][x]);
+					printf("%c", grid[y][x]);//stage 출력
 				}
 				else {
 					int flag = 0;
-					for (int i = 0; i < tail_length; i++) {
+					for (int i = 0; i < tail_length; i++) {//tail_length 길이만큼의 뱀 출력
 						if (tail_x[i] == x && tail_y[i] == y) {
 							printf("%c", '+');
 							flag = 1;
@@ -147,7 +148,7 @@ void makestage(int width, int height)
 			}
 			printf("\n");
 		}
-		for (int i = 0; i < tail_length; i++)
+		for (int i = 0; i < tail_length; i++)//자신의 꼬리와 닿으면 game over 출력 후 종료되는 코드
 		{
 			if (head_x == tail_x[i] && head_y == tail_y[i])
 			{
