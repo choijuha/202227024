@@ -47,16 +47,16 @@ int r_screen()
 	return 0;
 }
 void makestage(int width, int height)
-{//char gpt의 작품
+{//chat gpt의 작품
 	system("cls");
 	bool gameover = false;
-	int apple_x, apple_y;
+	int apple_x = 0, apple_y = 0;
 	bool appleeat = false;
 	srand(time(NULL));
 	int random_number = rand();
-	apple_x = (random_number % (width -1 - 1 + 1)) + 1;
-	apple_y = (random_number % (height -1 - 1 + 1)) + 1;
 	width += 2; height += 2;
+	apple_x = (random_number % (width-2 - 1 + 1)) + 1;
+	apple_y = (random_number % (height-2 - 1+ 1)) + 1;
 	char** grid;
 	grid = (char**)malloc(sizeof(char*) * height);
 	for (int i = 0; i < height; i++) {
@@ -90,32 +90,61 @@ void makestage(int width, int height)
 		tail_y[0] = head_y;
 		head_x += dx;
 		head_y += dy;
-
+		
 		// 방향키 입력 처리
 		if (_kbhit()) {
 			char c = _getch();
-			if (c == 'a' || c == 'A') { dx = -1; dy = 0; }
-			else if (c == 'd' || c == 'D') { dx = 1; dy = 0; }
-			else if (c == 'w' || c == 'W') { dx = 0; dy = -1; }
-			else if (c == 's' || c == 'S') { dx = 0; dy = 1; }
-			else if (c == 27) break;
+					if (c == 'a' || c == 'A') 
+					{ 
+						if (head_x -1 == tail_x[0] && head_y + 0 == tail_y[0]);
+						else 
+						{
+							dx = -1; dy = 0;
+						}
+					}
+					else if (c == 'd' || c == 'D')
+					{
+						if (head_x + 1 == tail_x[0] && head_y + 0 == tail_y[0]);
+						else
+						{
+							dx = 1; dy = 0;
+						}
+					}
+					else if (c == 'w' || c == 'W')
+					{
+						if (head_x +0 == tail_x[0] && head_y -1 == tail_y[0]);
+						else
+						{
+							dx = 0; dy = -1;
+						}
+					}
+					else if (c == 's' || c == 'S') 
+					{
+						if (head_x + 0 == tail_x[0] && head_y + 1 == tail_y[0]);
+						else
+						{
+							dx = 0; dy = 1;
+						}
+					}
+					else if (c == 27) break;
 		}
-		if (head_x < 0 || head_x >= width || head_y < 0 || head_y >= height )//벽과 충돌하면  gameover 출력 후 종료
+		if (head_x <= -1 || head_x >= width || head_y <= -1 || head_y >= height)//벽과 충돌하면  gameover 출력 후 종료
 		{
 			printf("game over");
 			break;
 		}
-		
+
 		if (gameover) break;
 		//apple을 먹었는지, 먹었으면 apple의 좌표 변경, 꼬리 길이 늘리기
 		if (head_x == apple_x && head_y == apple_y)
 		{
 			grid[apple_y][apple_x] = ' ';
 			random_number = rand();
-			apple_x = (random_number % (width -1 - 1 + 1)) + 1;
-			apple_y = (random_number % (height -1 - 1 + 1)) + 1;
+			apple_x = (random_number % (width - 2 - 1 + 1)) + 1;
+			apple_y = (random_number % (height - 2 - 1 + 1)) + 1;
 			tail_length++;
 		}
+		int start = head_x ;
 		// 화면 출력
 		system("cls");
 		for (int y = 0; y < height; y++) {
@@ -163,7 +192,6 @@ void makestage(int width, int height)
 		// 일시정지
 		Sleep(50);
 	}
-
 	for (int i = 0; i < height; i++) {
 		free(grid[i]);
 	}
