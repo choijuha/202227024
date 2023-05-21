@@ -24,6 +24,7 @@
     <ProjectGuid>{bb3b82cf-d960-4358-b2c8-3bec28fa9503}</ProjectGuid>
     <RootNamespace>MuSoeun</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <ProjectName>MuSeoun</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -127,7 +128,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="MuSoeun.cpp" />
+    <ClCompile Include="MuSeoun.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Component.hpp" />
+    <ClInclude Include="GameLoop.hpp" />
+    <ClInclude Include="GameObjects.hpp" />
+    <ClInclude Include="Scene.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
