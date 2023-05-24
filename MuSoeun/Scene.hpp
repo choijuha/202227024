@@ -5,13 +5,11 @@ namespace MuSeoun_Engine
 {
 
     class Scene {
-    private:
-        std::vector<Object*> hierarchy;
-        std::vector<char> screenBuffer;
-        int screenWidth;
-        int screenHeight;
-
     public:
+        std::vector<Object*> hierarchy;
+         std::vector<char> screenBuffer;
+         int screenWidth;
+         int screenHeight;
         Scene(int width, int height) : screenWidth(width), screenHeight(height) {
             screenBuffer.resize(screenWidth * screenHeight, ' ');  // 스크린 버퍼 크기 설정
         }
