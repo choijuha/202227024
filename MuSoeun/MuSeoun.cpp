@@ -1,10 +1,12 @@
 ﻿#include "GameLoop.hpp"
+#include "GameObjects.hpp"
 
+using namespace MuSeoun_Engine;
 
 int main()
 {
-	MuSeoun_Engine::GameLoop gLoop;
-	gLoop.Run(50, 20);
+	GameLoop gl;
+	gl.GLOOP();
 
 	return 0;
 }

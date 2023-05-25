@@ -5,7 +5,6 @@
 #include <conio.h>
 #include <thread>
 #include <random>
-#include "GameLoop.hpp"
 
 using namespace std;
 
@@ -20,34 +19,17 @@ namespace MuSeoun_Engine
             posX = x;
             posY = y;
         }
-
+        
         virtual void Render(std::vector<char>& screenBuffer, int screenWidth) { }
     };
-    class Apple : public Object
-    {
-    public:
-        int AppleposX;
-        int ApplePosY;
-        void AppleRender(std::vector<char>& screenBuffer, int screenWidth, int screenHeight)
-        {
-            std::random_device rd;
-            std::mt19937 gen(rd());
-            std::uniform_int_distribution<int> distX(1, screenWidth - 1);
-            std::uniform_int_distribution<int> distY(1, screenHeight - 1);
-
-            AppleposX = distX(gen);
-            ApplePosY = distY(gen);
-            int index = (ApplePosY + 1) * (screenWidth + 1) + AppleposX + 1;
-            screenBuffer[index] = '@';
-        }
-    };
+    
 
     class Snake : public Object
     {
     public:
         std::vector<int> tailX;
         std::vector<int> tailY;
-        int tailsize = 10;
+        int tailsize = 2;
         int dx = 1, dy = 0;
         void Render(std::vector<char>& screenBuffer, int screenWidth) override {
             int index = (posY + 1) * (screenWidth + 1) + posX + 1;
@@ -83,7 +65,7 @@ namespace MuSeoun_Engine
                 tailY.insert(tailY.begin(), posY);
             }
         }
-        void Update()
+        void Keyinput()
         {
             if (_kbhit())
             {
@@ -137,8 +119,47 @@ namespace MuSeoun_Engine
                     }
                 }
             }
+        }
+        void Movecon()
+        {
             std::this_thread::sleep_for(std::chrono::milliseconds(100)); // 100ms µÙ∑π¿Ã
             Move(dx, dy);
+        }
+    };
+    class Apple : public Object
+    {
+    public:
+        int applex;
+        int appley;
+        Snake snake;
+        void Render(std::vector<char>& screenBuffer, int screenWidth) override
+        {
+            int index = (posY + 1) * (screenWidth + 1) + posX + 1;
+            screenBuffer[index] = '@';
+        }
+        void SetRandomApplePos(int screenWidth, int screenHeight)
+        {
+            std::random_device rd;
+            std::mt19937 gen(rd());
+            std::uniform_int_distribution<int> distX(0, screenWidth - 3);
+            std::uniform_int_distribution<int> distY(0, screenHeight - 3);
+            applex = distX(gen);
+            appley = distY(gen);
+            for (int i = 0; i < snake.tailX.size(); i++)
+            {
+                while (1)
+                {
+                    if (snake.tailX[i] == applex && snake.tailY[i] == appley || applex == snake.posX && appley == snake.posY)
+                    {
+                        std::uniform_int_distribution<int> distX(0, screenWidth - 3);
+                        std::uniform_int_distribution<int> distY(0, screenHeight - 3);
+                        applex = distX(gen);
+                        appley = distY(gen);
+                    }
+                    else break;
+                }
+            }
+            SetPosition(applex, appley);
         }
     };
 }
