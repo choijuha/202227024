@@ -18,78 +18,216 @@ namespace MuSeoun_Engine
 	public:
 	bool isESC = false;
 	bool isYes = true;
-	
-int state = 0;
-int screen = 1;
-int Mainscreen()
-{
-	system("cls");
-	std::cout << "****************************************\n";
-	std::cout << "*              지렁이 게임             *\n";
-	std::cout << "*             (Snake Bite)             *\n";
-	std::cout << "*                                      *\n";
-	std::cout << "*     1. 게임 시작                     *\n";
-	std::cout << "*     2. 게임 설명                     *\n";
-	std::cout << "*     3. 게임 랭킹 보기                *\n";
-	std::cout << "*     4. 게임 종료(esc)                *\n";
-	std::cout << "****************************************\n";
+	bool isENTER = false;
+	int screen = 1;
+	int Mainscreen()
+	{
+		screen = 1;
+		isENTER = true;
+		int num = 1;
+		PrintScreenChoice(num);
+		while (isENTER)
+		{
+			char c = _getch();
+			if (c == KEY_RIGHT)
+			{
+				if (num <= 3)
+				{
+					num += 1;
+				}
+			}
+			else if (c == KEY_LEFT)
+			{
+				if (num >= 2)
+				{
+					num -= 1;
+				}
+			}
+			if (c == KEY_ENTER)
+			{
+				if (num == 2) screenchange(2);
+				else if (num == 3)screenchange(3);
+				else if (num == 1) screenchange(4);
+				else if (num == 4) num = 0;
+				isENTER = false;
+			}
+			PrintScreenChoice(num);
+		}
 
 	return 0;
 }
 int i_screen()
 {
+	screen = 2;
 	system("cls");
-	std::cout << "****************************************\n";
-	std::cout << "*        게임 설명 화면입니다.         *\n";
-	std::cout << "****************************************\n";
+	std::cout << "******************************************\n";
+	std::cout << "*                                        *\n";
+	std::cout << "* A키 - 뱀이 왼쪽으로 머리를 돌립니다.   *\n";
+	std::cout << "*                                        *\n";
+	std::cout << "* D키 - 뱀이 오른쪽으로 머리를 돌립니다. *\n";
+	std::cout << "*                                        *\n";
+	std::cout << "*      사과를 먹으면 뱀이 길어집니다.    *\n";
+	std::cout << "*                                        *\n";
+	std::cout << "* 뱀이 벽이나 자신의 꼬리에 닿거나       *\n";
+	std::cout << "* X와 부딪히면 게임이 종료됩니다.        *\n";
+	std::cout << "*                                        *\n";
+	std::cout << "******************************************\n";
 	std::cout << "메인 화면으로 돌아가려면 ESC 키를 누르세요.\n";
-	isESC = true;
+	isESC = false;
+	while (!isESC)
+	{
+		char c = _getch();
+		if (c == KEY_ESC)
+		{
+			system("cls");
+			gotoxy(3, 5);
+			cout << "메인 화면으로 돌아갈까요?" << endl;
+			gotoxy(3, 8);
+			cout << ANSI_COLOR_YELLOW"돌아간다";
+			gotoxy(15, 8);
+			cout << ANSI_COLOR_RESET"돌아가지 않는다";
+			isESC = true;
+			isYes = true;
+		}
+	}
 	while (isESC)
 	{
-		KeyEventInMenu(_getch(), 2);
+		if (screen == 2)
+		{
+			char c = _getch();
+			KeyEventInMenu(c, 2);
+		}
 	}
 	return 0;
 }
 int r_screen()
 {
+	screen = 3;
 	system("cls");
 	std::cout << "****************************************\n";
 	std::cout << "*        게임 랭킹 화면입니다.         *\n";
 	std::cout << "****************************************\n";
+	std::cout << "메인 화면으로 돌아가려면 ESC 키를 누르세요.\n"; 
+	isESC = false; 
+	while (!isESC)
+	{
+		char c = _getch();
+		if (c == KEY_ESC)
+		{
+			system("cls");
+			gotoxy(3, 5);
+			cout << "메인 화면으로 돌아갈까요?" << endl;
+			gotoxy(3, 8);
+			cout << ANSI_COLOR_YELLOW"돌아간다";
+			gotoxy(15, 8);
+			cout << ANSI_COLOR_RESET"돌아가지 않는다";
+			isESC = true;
+			isYes = true;
+		}
+	}
+	while (isESC)
+	{
+		if (screen == 3)
+		{
+			char c = _getch();
+			KeyEventInMenu(c, 3);
+		}
+	}
 	return 0;
+}
+void PrintScreenChoice(int choicenum)
+{
+	if (choicenum == 1)
+	{
+		system("cls");
+		std::cout << "****************************************\n";
+		std::cout << "*              지렁이 게임             *\n";
+		std::cout << "*             (Snake Bite)             *\n";
+		std::cout << "*                                      *\n";
+		gotoxy(0, 4);
+		std::cout << ANSI_COLOR_RESET"*";
+		gotoxy(6, 4);
+		cout << ANSI_COLOR_YELLOW"1. 게임 시작";
+		gotoxy(39, 4);
+		cout << ANSI_COLOR_RESET"*\n";
+		std::cout << "*     2. 게임 설명                     *\n";
+		std::cout << "*     3. 게임 랭킹 보기                *\n";
+		std::cout << "*     4. 게임 종료                     *\n";
+		std::cout << "****************************************\n";
+	}
+	else if (choicenum == 2)
+	{
+		system("cls");
+		std::cout << "****************************************\n";
+		std::cout << "*              지렁이 게임             *\n";
+		std::cout << "*             (Snake Bite)             *\n";
+		std::cout << "*                                      *\n";
+		std::cout << "*     1. 게임 시작                     *\n";
+		gotoxy(0, 5);
+		std::cout << ANSI_COLOR_RESET"*";
+		gotoxy(6, 5);
+		cout << ANSI_COLOR_YELLOW"2. 게임 설명";
+		gotoxy(39, 5);
+		cout << ANSI_COLOR_RESET"*\n";
+		std::cout << "*     3. 게임 랭킹 보기                *\n";
+		std::cout << "*     4. 게임 종료                     *\n";
+		std::cout << "****************************************\n";
+	}
+	else if (choicenum == 3)
+	{
+		system("cls");
+		std::cout << "****************************************\n";
+		std::cout << "*              지렁이 게임             *\n";
+		std::cout << "*             (Snake Bite)             *\n";
+		std::cout << "*                                      *\n";
+		std::cout << "*     1. 게임 시작                     *\n";
+		std::cout << "*     2. 게임 설명                     *\n";
+		gotoxy(0, 6);
+		std::cout << ANSI_COLOR_RESET"*";
+		gotoxy(6, 6);
+		cout << ANSI_COLOR_YELLOW"3. 게임 랭킹 보기";
+		gotoxy(39, 6);
+		cout << ANSI_COLOR_RESET"*\n";
+		std::cout << "*     4. 게임 종료                     *\n";
+		std::cout << "****************************************\n";
+	}
+	else if (choicenum == 4)
+	{
+		system("cls");
+		std::cout << "****************************************\n";
+		std::cout << "*              지렁이 게임             *\n";
+		std::cout << "*             (Snake Bite)             *\n";
+		std::cout << "*                                      *\n";
+		std::cout << "*     1. 게임 시작                     *\n";
+		std::cout << "*     2. 게임 설명                     *\n";
+		std::cout << "*     3. 게임 랭킹 보기                *\n";
+		gotoxy(0, 7);
+		std::cout << ANSI_COLOR_RESET"*";
+		gotoxy(6, 7);
+		cout << ANSI_COLOR_YELLOW"4. 게임 종료     ";
+		gotoxy(39, 7);
+		cout << ANSI_COLOR_RESET"*\n";
+		std::cout << "****************************************\n";
+	}
+	else if(choicenum == 0)
+	{
+		system("cls");
+		std::cout << "****************************************\n";
+		std::cout << "*                                      *\n";
+		std::cout << "*                                      *\n";
+		std::cout << "*              게임 종료               *\n";
+		std::cout << "*                                      *\n";
+		std::cout << "*                                      *\n";
+		std::cout << "****************************************\n";
+		printf("");
+	}
 }
 void gotoxy(int x, int y) {
 	COORD pos = { x,y };
 	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), pos);
-}void KeyEventInMenu(char KeyInput, int st)
+}
+void KeyEventInMenu(char KeyInput, int st)
 {
-	switch (KeyInput)
-	{
-	case KEY_ESC:
-		system("cls");
-		gotoxy(3, 5);
-		cout << "메인 화면으로 돌아갈까요?" << endl;
-		gotoxy(3, 8);
-		cout << ANSI_COLOR_YELLOW"돌아간다";
-		gotoxy(15, 8);
-		cout << ANSI_COLOR_RESET"돌아가지 않는다";
-		isESC = true;
-		break;
-	case KEY_ENTER:
-		if (isYes)
-		{
-			screenchange(1);
-			isESC = false;
-		}
-		else
-		{
-			screenchange(st);
-			isESC = false;
-		}
-		break;
-	default:
-		break;
-	}
 	if (isESC)
 	{
 		switch (KeyInput)
@@ -115,6 +253,18 @@ void gotoxy(int x, int y) {
 			cout << ANSI_COLOR_RESET"";
 			isYes = false;
 			break;
+		case KEY_ENTER:
+			if (isYes)
+			{
+				screenchange(1);
+				isESC = false;
+			}
+			else
+			{
+				screenchange(st);
+				isESC = false;
+			}
+			break;
 		}
 	}
 }
@@ -128,9 +278,30 @@ void KeyEvent(char KeyInput)
 		gotoxy(3, 8);
 		cout << ANSI_COLOR_YELLOW"돌아간다";
 		gotoxy(15, 8);
-		cout << ANSI_COLOR_RESET"다시 시작(R)";
+		cout << ANSI_COLOR_RESET"다시 시작";
 		isESC = true;
-		break;
+		if (isESC)
+		{
+		case KEY_LEFT:
+			gotoxy(3, 5);
+			cout << "메인 화면으로 돌아갈까요?" << endl;
+			gotoxy(3, 8);
+			cout << ANSI_COLOR_YELLOW"돌아간다";
+			gotoxy(15, 8);
+			cout << ANSI_COLOR_RESET"다시 시작";
+			isYes = true;
+			break;
+		case KEY_RIGHT:
+			gotoxy(3, 5);
+			cout << "메인 화면으로 돌아갈까요?" << endl;
+			gotoxy(3, 8);
+			cout << ANSI_COLOR_RESET"돌아간다";
+			gotoxy(15, 8);
+			cout << ANSI_COLOR_YELLOW"다시 시작";
+			cout << ANSI_COLOR_RESET"";
+			isYes = false;
+			break;
+		}
 	case KEY_ENTER:
 		if (isYes)
 		{
@@ -146,31 +317,7 @@ void KeyEvent(char KeyInput)
 	default:
 		break;
 	}
-	if (isESC)
-	{
-		switch (KeyInput)
-		{
-		case KEY_LEFT:
-			gotoxy(3, 5);
-			cout << "메인 화면으로 돌아갈까요?" << endl;
-			gotoxy(3, 8);
-			cout << ANSI_COLOR_YELLOW"돌아간다";
-			gotoxy(15, 8);
-			cout << ANSI_COLOR_RESET"다시 시작(R)";
-			isYes = true;
-			break;
-		case KEY_RIGHT:
-			gotoxy(3, 5);
-			cout << "메인 화면으로 돌아갈까요?" << endl;
-			gotoxy(3, 8);
-			cout << ANSI_COLOR_RESET"돌아간다";
-			gotoxy(15, 8);
-			cout << ANSI_COLOR_YELLOW"다시 시작(R)";
-			cout << ANSI_COLOR_RESET"";
-			isYes = false;
-			break;
-		}
-	}
+	
 }
 void Stop()
 {
@@ -183,7 +330,6 @@ void Stop()
 }
 int screenchange(int sc)
 {
-	char c = 0;
 	if (sc == 2)
 	{
 		i_screen();
@@ -205,55 +351,9 @@ int screenchange(int sc)
 		bool isstop = false;
 		bool isGameRunning = false;
 		bool isapple = true;
-		void GLOOP()
+		void Run()
 		{
-			int a = 0;
-			int isgamerunning = 1;
-			while (isgamerunning)
-			{
-				char c = 0;
-
-				switch (state)
-				{
-				case 0:
-					if (screen == 1)
-					{
-						Mainscreen();
-						screen = 0;
-					}
-					c = _getch();
-					if (c == '2')
-					{
-						state = 2;
-						screen = 2;
-					}
-					else if (c == '3')
-					{
-						state = 3;
-						screen = 3;
-					}
-					else if (c == '1')
-					{
-						state = 1;
-						screen = 4;
-					}
-					else if (c == '4' || c == 27)
-						isgamerunning = 0;
-					break;
-				case 1:
-					isgamerunning = screenchange(screen);
-
-					break;
-				case 2:
-					isgamerunning = screenchange(screen);
-					break;
-				case 3:
-					isgamerunning = screenchange(screen);
-					break;
-				default:
-					break;
-				}
-			}
+			Mainscreen();
 		}
 		void GameRun(int screenWidth, int screenHeight)
 		{
@@ -264,10 +364,13 @@ int screenchange(int sc)
 			Object object;
 			Snake snakeHead;
 			Apple apple;
+			Xobject x;
+			scene.AddObject(&x);
+			scene.AddObject(&apple);
 			scene.AddObject(&snakeHead);
 			snakeHead.SetPosition(15, 5);
-			scene.AddObject(&apple);  
 			apple.SetRandomApplePos(screenWidth, screenHeight);
+			x.SetRandomXPos(screenWidth, screenHeight);
 			isapple = false;
 			isGameRunning = true;
 			while (isGameRunning)
@@ -286,6 +389,15 @@ int screenchange(int sc)
 						isGameRunning = false;
 						break;
 					}
+					if (isX)
+					{
+						if(snakeHead.posX == x.Xx && snakeHead.posY == x.Xy)
+						{
+							Stop();
+							isGameRunning = false;
+							break;
+						}
+					}
 				if (snakeHead.posX == apple.applex && snakeHead.posY == apple.appley)
 				{
 					isapple = true;
@@ -293,16 +405,14 @@ int screenchange(int sc)
 				}
 				if (isapple)
 				{
-					apple.SetRandomApplePos(screenWidth, screenHeight);
+					x.SetRandomXPos(screenWidth, screenHeight);
+					apple.SetRandomApplePos(screenWidth, screenHeight); 
 					isapple = false;
 				}
 				scene.Draw();
 				snakeHead.Keyinput();
 				snakeHead.Movecon();
-				
-					
 			}
-			
 		}
 	};
 }

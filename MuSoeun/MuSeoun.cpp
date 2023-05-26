@@ -6,7 +6,7 @@ using namespace MuSeoun_Engine;
 int main()
 {
 	GameLoop gl;
-	gl.GLOOP();
+	gl.Run();
 
 	return 0;
 }

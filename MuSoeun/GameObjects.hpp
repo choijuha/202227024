@@ -126,11 +126,13 @@ namespace MuSeoun_Engine
             Move(dx, dy);
         }
     };
+    bool isX = false;
     class Apple : public Object
     {
     public:
         int applex;
         int appley;
+        int ran;
         Snake snake;
         void Render(std::vector<char>& screenBuffer, int screenWidth) override
         {
@@ -143,6 +145,16 @@ namespace MuSeoun_Engine
             std::mt19937 gen(rd());
             std::uniform_int_distribution<int> distX(0, screenWidth - 3);
             std::uniform_int_distribution<int> distY(0, screenHeight - 3);
+            uniform_int_distribution<int> rannum(0, 10);
+            ran = rannum(gen);
+            if (ran < 2)
+            {
+                isX = true;
+            }
+            else
+            {
+                isX = false;
+            }
             applex = distX(gen);
             appley = distY(gen);
             for (int i = 0; i < snake.tailX.size(); i++)
@@ -160,6 +172,50 @@ namespace MuSeoun_Engine
                 }
             }
             SetPosition(applex, appley);
+        }
+    };
+    class Xobject : public Object
+    {
+    public:
+        int Xx;
+        int Xy;
+        Snake snake;
+        Apple apple;
+        void Render(std::vector<char>& screenBuffer, int screenWidth) override
+        {
+            int index = (posY + 1) * (screenWidth + 1) + posX + 1;
+            if (isX)
+            {
+                screenBuffer[index] = 'X';
+            }
+            else
+            {
+                screenBuffer[index] = ' ';
+            }
+        }
+        void SetRandomXPos(int screenWidth, int screenHeight)
+        {
+            std::random_device rd;
+            std::mt19937 gen(rd());
+            std::uniform_int_distribution<int> distX(0, screenWidth - 3);
+            std::uniform_int_distribution<int> distY(0, screenHeight - 3);
+            Xx = distX(gen);
+            Xy = distY(gen);
+            for (int i = 0; i < snake.tailX.size(); i++)
+            {
+                while (1)
+                {
+                    if ((snake.tailX[i] == Xx && snake.tailY[i] == Xy) || (Xx == snake.posX && Xy == snake.posY) || (Xx == apple.applex && Xy == apple.appley))
+                    {
+                        std::uniform_int_distribution<int> distX(0, screenWidth - 3);
+                        std::uniform_int_distribution<int> distY(0, screenHeight - 3);
+                        Xx = distX(gen);
+                        Xy = distY(gen);
+                    }
+                    else break;
+                }
+            }
+            SetPosition(Xx, Xy);
         }
     };
 }
