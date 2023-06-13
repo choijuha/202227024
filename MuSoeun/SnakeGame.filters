@@ -15,7 +15,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="MuSeoun.cpp">
+    <ClCompile Include="SnakeGame.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
@@ -24,9 +24,6 @@
       <Filter>소스 파일</Filter>
     </ClInclude>
     <ClInclude Include="Scene.hpp">
-      <Filter>소스 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Component.hpp">
       <Filter>소스 파일</Filter>
     </ClInclude>
     <ClInclude Include="GameLoop.hpp">

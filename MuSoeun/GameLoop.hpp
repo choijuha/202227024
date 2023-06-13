@@ -1,6 +1,5 @@
 #pragma once
 #include "Scene.hpp"
-#include <random>
 #define ANSI_COLOR_YELLOW   "\x1b[33m"
 #define ANSI_COLOR_RESET    "\x1b[0m"
 #define KEY_ESC 27
@@ -8,11 +7,9 @@
 #define KEY_RIGHT 'd'
 #define KEY_ENTER 13
 
-
 using namespace std;
+using namespace MuSeoun_Engine;
 
-namespace MuSeoun_Engine
-{
 	class GameLoop
 	{
 	public:
@@ -368,7 +365,7 @@ int screenchange(int sc)
 			scene.AddObject(&x);
 			scene.AddObject(&apple);
 			scene.AddObject(&snakeHead);
-			snakeHead.SetPosition(15, 5);
+			snakeHead.SetPosition(screenWidth / 2, screenHeight / 2);
 			apple.SetRandomApplePos(screenWidth, screenHeight);
 			x.SetRandomXPos(screenWidth, screenHeight);
 			isapple = false;
@@ -391,14 +388,14 @@ int screenchange(int sc)
 					}
 					if (isX)
 					{
-						if(snakeHead.posX == x.Xx && snakeHead.posY == x.Xy)
+						if(snakeHead.posX == x.posX && snakeHead.posY == x.posY)
 						{
 							Stop();
 							isGameRunning = false;
 							break;
 						}
 					}
-				if (snakeHead.posX == apple.applex && snakeHead.posY == apple.appley)
+				if (snakeHead.posX == apple.posX && snakeHead.posY == apple.posY)
 				{
 					isapple = true;
 					snakeHead.tailsize += 1;
@@ -415,4 +412,3 @@ int screenchange(int sc)
 			}
 		}
 	};
-}

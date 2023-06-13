@@ -14,7 +14,7 @@ namespace MuSeoun_Engine
     public:
         int posX;
         int posY;
-
+        bool makeobj;
         void SetPosition(int x, int y) {
             posX = x;
             posY = y;
@@ -122,7 +122,7 @@ namespace MuSeoun_Engine
         }
         void Movecon()
         {
-            std::this_thread::sleep_for(std::chrono::milliseconds(100)); // 100ms µÙ∑π¿Ã
+            std::this_thread::sleep_for(std::chrono::milliseconds(100));
             Move(dx, dy);
         }
     };
@@ -130,8 +130,6 @@ namespace MuSeoun_Engine
     class Apple : public Object
     {
     public:
-        int applex;
-        int appley;
         int ran;
         Snake snake;
         void Render(std::vector<char>& screenBuffer, int screenWidth) override
@@ -155,30 +153,31 @@ namespace MuSeoun_Engine
             {
                 isX = false;
             }
-            applex = distX(gen);
-            appley = distY(gen);
-            for (int i = 0; i < snake.tailX.size(); i++)
+            posX = distX(gen);
+            posY = distY(gen);
+            makeobj = false;
+            while (!makeobj)
             {
-                while (1)
+                makeobj = true;
+                for (int i = 0; i < snake.tailX.size(); i++)
                 {
-                    if (snake.tailX[i] == applex && snake.tailY[i] == appley || applex == snake.posX && appley == snake.posY)
+                    if (snake.tailX[i] == posX && snake.tailY[i] == posY || posX == snake.posX && posY == snake.posY)
                     {
                         std::uniform_int_distribution<int> distX(0, screenWidth - 3);
                         std::uniform_int_distribution<int> distY(0, screenHeight - 3);
-                        applex = distX(gen);
-                        appley = distY(gen);
+                        posX = distX(gen);
+                        posY = distY(gen);
+                        makeobj = false;
+                        break;
                     }
-                    else break;
                 }
             }
-            SetPosition(applex, appley);
+            SetPosition(posX, posY);
         }
     };
     class Xobject : public Object
     {
     public:
-        int Xx;
-        int Xy;
         Snake snake;
         Apple apple;
         void Render(std::vector<char>& screenBuffer, int screenWidth) override
@@ -199,23 +198,26 @@ namespace MuSeoun_Engine
             std::mt19937 gen(rd());
             std::uniform_int_distribution<int> distX(0, screenWidth - 3);
             std::uniform_int_distribution<int> distY(0, screenHeight - 3);
-            Xx = distX(gen);
-            Xy = distY(gen);
-            for (int i = 0; i < snake.tailX.size(); i++)
+            posX = distX(gen);
+            posY = distY(gen);
+            makeobj = false;
+            while (!makeobj)
             {
-                while (1)
+                makeobj = true;
+                for (int i = 0; i < snake.tailX.size(); i++)
                 {
-                    if ((snake.tailX[i] == Xx && snake.tailY[i] == Xy) || (Xx == snake.posX && Xy == snake.posY) || (Xx == apple.applex && Xy == apple.appley))
+                    if ((snake.tailX[i] == posX && snake.tailY[i] == posY) || (posX == snake.posX && posY == snake.posY) || (posX == apple.posX && posY == apple.posY))
                     {
                         std::uniform_int_distribution<int> distX(0, screenWidth - 3);
                         std::uniform_int_distribution<int> distY(0, screenHeight - 3);
-                        Xx = distX(gen);
-                        Xy = distY(gen);
+                        posX = distX(gen);
+                        posY = distY(gen);
+                        makeobj = false;
+                        break;
                     }
-                    else break;
                 }
             }
-            SetPosition(Xx, Xy);
+            SetPosition(posX, posY);
         }
     };
 }
