@@ -16,6 +16,7 @@ using namespace MuSeoun_Engine;
 	bool isESC = false;
 	bool isYes = true;
 	bool isENTER = false;
+	int finalscore = 0;
 	int screen = 1;
 	int Mainscreen()
 	{
@@ -280,6 +281,8 @@ void KeyEvent(char KeyInput)
 		if (isESC)
 		{
 		case KEY_LEFT:
+			gotoxy(3, 3);
+			printf("점수 : %d", finalscore);
 			gotoxy(3, 5);
 			cout << "메인 화면으로 돌아갈까요?" << endl;
 			gotoxy(3, 8);
@@ -289,6 +292,8 @@ void KeyEvent(char KeyInput)
 			isYes = true;
 			break;
 		case KEY_RIGHT:
+			gotoxy(3, 3);
+			printf("점수 : %d", finalscore);
 			gotoxy(3, 5);
 			cout << "메인 화면으로 돌아갈까요?" << endl;
 			gotoxy(3, 8);
@@ -354,6 +359,7 @@ int screenchange(int sc)
 		}
 		void GameRun(int screenWidth, int screenHeight)
 		{
+			int score = 0;
 			screenWidth += 3;
 			screenHeight += 3;
 			isGameRunning = true;
@@ -376,29 +382,32 @@ int screenchange(int sc)
 					{
 						if (snakeHead.posX == snakeHead.tailX[i] && snakeHead.posY == snakeHead.tailY[i])
 						{
+							finalscore = score;
 							Stop();
 							isGameRunning = false;
+							break;
 						}
 					}
 					if ((snakeHead.posX + 1) <= 0 || snakeHead.posX >= screenWidth - 2 || (snakeHead.posY + 1) <= 0 || snakeHead.posY >= screenHeight - 2)
 					{
+						finalscore = score;
 						Stop();
 						isGameRunning = false;
-						break;
 					}
 					if (isX)
 					{
 						if(snakeHead.posX == x.posX && snakeHead.posY == x.posY)
 						{
+							finalscore = score;
 							Stop();
 							isGameRunning = false;
-							break;
 						}
 					}
 				if (snakeHead.posX == apple.posX && snakeHead.posY == apple.posY)
 				{
 					isapple = true;
 					snakeHead.tailsize += 1;
+					score += 1;
 				}
 				if (isapple)
 				{
